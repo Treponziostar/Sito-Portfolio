@@ -1,0 +1,206 @@
+<!--
+  index.html — pagina principale del portfolio
+
+  Qui scriverai tu il markup. Struttura consigliata (vedi PIANO.md per i dettagli):
+  - <head> con meta tag, title, link a style.css
+  - <header> con nome e menu di navigazione
+  - <section id="hero"> presentazione breve
+  - <section id="about"> chi sei, percorso di studi
+  - <section id="projects"> elenco progetti
+  - <section id="contact"> contatti / link social
+  - <footer>
+  - <script src="script.js"> a fine body
+-->
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./asset/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Description" content="Scopri chi sono e i miei progetti" />
+    <title>Portfolio Luca Casolino Pellegrini</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+      let prefersColorScheme = localStorage.getItem("theme");
+      if (prefersColorScheme === null) {
+        const readTheme = window.matchMedia(
+          "(prefers-color-scheme: light)",
+        ).matches;
+        if (readTheme === true) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      }
+      if (prefersColorScheme === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Vai al contenuto principale</a>
+
+    <header>
+      <h1>Luca Casolino Pellegrini</h1>
+
+      <div class="header-inner">
+         <button
+          type="button"
+          id="themeToggle"
+          class="theme-toggle"
+          role="switch"
+          aria-checked="false"
+          aria-label="Attiva tema chiaro"
+        >
+          <span class="theme-toggle-thumb" aria-hidden="true"></span>
+          <span class="theme-toggle-sun" aria-hidden="true">☀️</span>
+          <span class="theme-toggle-moon" aria-hidden="true">🌙</span>
+        </button>
+
+        <button
+          type="button"
+          id="navToggle"
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="main-nav"
+          aria-label="Apri il menu di Navigazione"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+
+        <nav id="main-nav" aria-label="Navigazione principale">
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">Chi sono</a></li>
+            <li><a href="#projects">Progetti</a></li>
+            <li><a href="#footer-contact">Contatti</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="home">
+        <img
+          src="asset/foto hero.jpg"
+          alt="Foto personale a napoli con vesuvio su sfondo"
+        />
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+          <h1>Il mio portfolio</h1>
+          <p>Web Developer</p>
+        </div>
+      </section>
+
+      <div class="description">
+        <h2>Scopri chi sono e i miei progetti</h2>
+
+        <div class="buttons">
+          <a
+            href="public/CV Luca Casolino Pellegrini.pdf"
+            target="_blank"
+            rel="noopener"
+          >
+            Visualizza CV
+          </a>
+
+          <a href="#projects">Progetti</a>
+        </div>
+      </div>
+
+      <!-- Le mie info  -->
+      <section id="about">
+        <div class="info">
+          <h2>Chi sono</h2>
+
+          <!-- Carosello -->
+          <div class="slider-wrapper">
+            <div
+              id="slider"
+              role="group"
+              aria-roledescription="carosello"
+              aria-label="Immagini che mi raccontano"
+            >
+              <button
+                type="button"
+                id="slider-prev"
+                class="slider-arrow slider-arrow-prev"
+                aria-label="Immagine precedente"
+              >
+                &#10094;
+              </button>
+
+              <button
+                type="button"
+                id="slider-next"
+                class="slider-arrow slider-arrow-next"
+                aria-label="Immagine successiva"
+              >
+                &#10095;
+              </button>
+              <p class="slider-counter" id="sliderCounter" aria-live="polite">
+                1 / 4
+              </p>
+            </div>
+
+            <div class="slider-dots" id="sliderDots"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>i miei lavori</h2>
+        <div class="projects-grid">
+          <article>
+            <div class="projects-body">
+              <h3>DB per carte magic e yu-gi-oh</h3>
+              <p>
+                Sviluppato in react e node.js e DB Mysql, a scopo personale per
+                tenere traccia della mia collezione.
+              </p>
+              <a href = "https://github.com/Treponziostar/Database-TCG-magic-e-yugioh">Progetto GitHub</a>
+            </div>
+
+            <div class="projects-action">
+              <a></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer id="footer">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <img src="./asset/favicon.png" alt="LCP" />
+          </div>
+
+          <div id="footer-contact">
+            <h3>Contatti</h3>
+            <ul>
+              <li>
+                <a href="mailto:casolinopellegrini@gmail.com"
+                  >casolinopellegrini@gmail.com</a
+                >
+              </li>
+              <li>
+                <a href="tel:+393451781312">+39 3451781312</a>
+              </li>
+            </ul>
+          </div>
+
+          <p class="footer-copy">
+            &copy; <span id="anno"></span> LCP &mdash; Tutti i diritti
+            riservati.
+          </p>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

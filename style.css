@@ -1,0 +1,630 @@
+/*
+  style.css — fogli di stile del portfolio
+
+  Qui scriverai tu il CSS. Traccia consigliata (vedi PIANO.md per i dettagli):
+  - reset/normalize di base + box-sizing
+  - variabili CSS (colori, font, spaziature) in :root
+  - stili generali (body, tipografia, link)
+  - layout delle sezioni (header, hero, about, projects, contact, footer)
+  - componenti riutilizzabili (card progetto, bottoni, badge)
+  - media query per la responsività (mobile-first)
+*/
+:root {
+  --bg: #0F1115;
+  --surface: #171A21;
+  --surface-light: #20242D;
+  --text: #F5F7FA;
+  --text-muted: #9CA3AF;
+  --primary: #6C63FF;
+  --primary-hover: #8179FF;
+  --border: #2A2E38;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
+  --max-width: 1200px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+/* ---------- Light mode (attivata da script.js con [data-theme="light"] su <html>) ---------- */
+:root[data-theme="light"] {
+  --bg: #F7F8FA;
+  --surface: #FFFFFF;
+  --surface-light: #EEF0F4;
+  --text: #14161B;
+  --text-muted: #5B6270;
+  --primary: #6C63FF;
+  --primary-hover: #8179FF;
+  --border: #DCDFE6;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text);
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+
+p {
+  margin: 0 0 1em;
+  color: var(--text);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--primary);
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Accessibilità ---------- */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--bg);
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  z-index: 1000;
+  border-radius: var(--radius-md);
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--text-muted);
+  outline-offset: 2px;
+}
+
+/* ---------- riduci animazioni ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Hero (#home) ---------- */
+#home {
+  padding-top: 0;
+  max-width: none;
+  position: relative;
+  height: min(70vh, 560px);
+  min-height: 340px;
+  overflow: hidden;
+}
+
+#home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20, 32, 20, 0.75) 0%,
+    rgba(20, 32, 20, 0.25) 55%,
+    rgba(20, 32, 20, 0.15) 100%
+  );
+}
+
+.hero-content{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.8rem;
+  margin: 0;
+  padding: 0 1.5rem;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  color: #fff;
+  font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.8rem);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.description {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(2rem, 1.5rem + 2vw, 3.5rem) 1.5rem 1rem;
+  text-align: center;
+}
+
+/* ---------- Bottoni (componente riutilizzabile) ---------- */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.buttons a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.buttons a:hover,
+.buttons a:focus-visible {
+  background: var(--primary-hover);
+}
+
+/* ---------- Toggle tema chiaro/scuro ---------- */
+.theme-toggle {
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  position: absolute;
+  background: var(--border);
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  right: 2rem;
+  top: -2rem;
+  z-index: 102;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50px;
+  left: 0.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--text);
+  transition: transform 0.2s ease;
+  z-index: 2;
+}
+
+.theme-toggle-sun,
+.theme-toggle-moon {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.theme-toggle-sun {
+  left: 0.25rem;
+}
+
+.theme-toggle-moon {
+  right: 0.25rem;
+}
+
+.theme-toggle[aria-checked="true"] {
+  background: var(--primary);
+}
+
+.theme-toggle[aria-checked="true"] .theme-toggle-thumb {
+  transform: translateX(1.25rem) translateY(-50%);
+}
+
+/* Bottoni più piccoli quando il menu laterale è aperto */
+.header-inner:has(.nav-toggle[aria-expanded="true"]) .theme-toggle {
+  width: 2.2rem;
+  height: 1.2rem;
+}
+
+.header-inner:has(.nav-toggle[aria-expanded="true"]) .theme-toggle-thumb {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.header-inner:has(.nav-toggle[aria-expanded="true"]) .theme-toggle-sun,
+.header-inner:has(.nav-toggle[aria-expanded="true"]) .theme-toggle-moon {
+  font-size: 0.55rem;
+}
+
+.header-inner:has(.nav-toggle[aria-expanded="true"]) .theme-toggle[aria-checked="true"] .theme-toggle-thumb {
+  transform: translateX(1rem) translateY(-50%);
+}
+
+/* .theme-toggle-icon-sun {
+  position: absolute;
+  top: 50%; 
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+} */
+
+/* ---------- Header e navigazione ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+  margin: 0;
+  padding: 1rem 1.5rem 0;
+  font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem);
+}
+
+.header-inner {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1.5rem 1rem;
+}
+
+.nav-toggle {
+  display: flex;
+  position: absolute;
+  bottom: 0rem; 
+  right: 2rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: var(--radius-sm);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  z-index: 102;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+ opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Bottone hamburger/X più piccolo quando il menu laterale è aperto */
+.header-inner:has(.nav-toggle[aria-expanded="true"]) .nav-toggle {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+/* Il menu resta chiuso finché script.js non porta aria-expanded a "true" sul bottone */
+#main-nav {
+  transform: translateX(100%);
+  transition: 0.3s;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(80%, 300px);
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--box-shadow);
+}
+
+.nav-toggle[aria-expanded="true"] + #main-nav {
+  transform: translateX(0);
+  z-index: 101;
+  padding-top: 4.4rem;
+}
+
+#main-nav ul {
+  display: flex;
+  flex-direction: column;
+}
+
+#main-nav a {
+  display: block;
+  padding: 0.9rem 1.2rem;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+}
+
+#main-nav li:last-child a {
+  border-bottom: none;
+}
+
+#main-nav a:hover,
+#main-nav a:focus-visible {
+  background: var(--surface);
+  color: var(--primary);
+}
+
+/* ---------- Chi sono (#about) e carosello ---------- */
+#about {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 2rem + 2vw, 4rem) 1.5rem;
+}
+
+.info h2 {
+  text-align: center;
+}
+
+.slider-wrapper {
+  max-width: 40rem;
+  margin: 1.5rem auto 0;
+}
+
+#slider {
+  position: relative;
+  min-height: 16rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+#slider img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  object-fit: cover; 
+}
+
+#slider img.active {
+  opacity: 1;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(15, 17, 21, 0.6);
+  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.slider-arrow-prev {
+  left: 0.75rem;
+}
+
+.slider-arrow-next {
+  right: 0.75rem;
+}
+
+.slider-counter {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.75rem;
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  background: rgba(15, 17, 21, 0.6);
+  color: #fff;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  z-index: 2;
+}
+
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.slider-dots button {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background-color: var(--text-muted);
+  cursor: pointer;
+}
+
+.slider-dots button.active {
+  background-color: var(--primary);
+  width: 1.2rem;
+  transition: background-color 0.2 ease;
+}
+
+/* ---------- Progetti ---------- */
+#projects {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 2rem + 2vw, 4rem) 1.5rem;
+}
+
+#projects h2 {
+  text-align: center;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.projects-grid article {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+
+.projects-body h3 {
+  font-size: 1.15rem;
+}
+
+.projects-body p {
+  margin-bottom: 0;
+  color: var(--text-muted);
+}
+
+.projects-action {
+  margin-top: 1rem;
+}
+
+.projects-action a {
+  display: inline-block;
+  font-weight: 600;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.footer-brand img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+#footer-contact h3 {
+  margin-bottom: 0.5rem;
+}
+
+#footer-contact ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+#footer-contact a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+#footer-contact a:hover,
+#footer-contact a:focus-visible {
+  color: var(--primary);
+}
+
+.footer-copy {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================
+   Media query — approccio mobile-first: da qui in poi si
+   aggiungono/sovrascrivono regole per schermi più larghi.
+   Breakpoint in em (indipendenti dallo zoom del testo, come
+   da raccomandazione W3C/WCAG).
+   ========================================================== */
+
+/* ---------- Tablet: da 48em (768px) ---------- */
+@media (min-width: 48em) {
+  .nav-toggle {
+    display: none;
+  }
+
+  #main-nav {
+    display: block;
+    position: static;
+    background: none;
+    border: none;
+    box-shadow: none;
+    transform: none;
+    width: auto;
+    height: auto;
+  }
+
+  #main-nav ul {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+
+  #main-nav a {
+    padding: 0.4rem 0.2rem;
+    border-bottom: none;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  #footer-contact ul {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+}
+
+/* ---------- Desktop: da 64em (1024px) ---------- */
+@media (min-width: 64em) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
